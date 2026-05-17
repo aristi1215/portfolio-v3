@@ -1,27 +1,51 @@
 import { skills } from "../content/skills";
+import { SectionHeader } from "./SystemOverview";
+
+const COMMANDS: Record<string, string> = {
+  Frontend: "$ cat ~/.frontend",
+  Backend: "$ cat ~/.backend",
+  Data: "$ psql --list",
+  "Cloud & Platform": "$ aws configure list",
+  "Quality & Testing": "$ npm test --watch",
+  Practices: "$ git log --oneline",
+};
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-24 px-6">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-serif mb-12">
-          Skills & Engineering Mindset
-        </h2>
+    <section id="stack" className="px-6 py-20">
+      <div className="max-w-6xl mx-auto">
+        <SectionHeader
+          eyebrow="Tech Stack"
+          title="Languages, frameworks, and the muscle memory."
+          sub="What I reach for first — grouped by where it lives in the system."
+        />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {skills.map((group) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+          {skills.map((group, i) => (
             <div
               key={group.group}
-              className="p-5 rounded-lg border border-border-light hover:border-accent/20 transition-colors"
+              className="panel p-5 transition-all hover:-translate-y-0.5"
             >
-              <h3 className="text-sm font-medium text-accent uppercase tracking-wider mb-3">
-                {group.group}
-              </h3>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-[15px] font-semibold text-[#e6ebf2]">
+                  {group.group}
+                </h3>
+                <span className="font-mono text-[10px] text-[#4a5263]">
+                  0{i + 1}
+                </span>
+              </div>
+
+              <div className="font-mono text-[11.5px] text-[#6c7585] mb-3 flex items-center gap-2">
+                <span className="text-[#4ade80]">▸</span>
+                {COMMANDS[group.group] || `$ list --${group.group.toLowerCase()}`}
+                <span className="caret !w-[0.45em]" />
+              </div>
+
+              <div className="flex flex-wrap gap-1.5 pt-3 border-t border-[#1d2330]">
                 {group.items.map((item) => (
                   <span
                     key={item}
-                    className="px-2.5 py-1 text-xs rounded-md bg-charcoal/[0.03] text-stone border border-border-light"
+                    className="px-2 py-1 text-[11.5px] font-mono rounded-md bg-white/[0.025] text-[#aeb6c2] border border-[#1d2330] hover:border-[#4ade80]/30 hover:text-[#e6ebf2] transition-colors"
                   >
                     {item}
                   </span>
