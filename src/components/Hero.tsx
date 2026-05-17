@@ -41,9 +41,8 @@ export default function Hero() {
             <span className="text-[#6c7585]">;</span>
           </p>
           <p className="text-[17px] md:text-[18px] text-[#aeb6c2] max-w-[38rem] lg:max-w-none leading-relaxed mb-6">
-            React/TypeScript front-of-house. FastAPI &amp; SQL behind the
-            counter. I build resilient, real-time products that ship — from
-            JWT-secured medical platforms to WebSocket reservation systems.
+            React/TypeScript, Node.js, Express, FastAPI &amp; SQL behind the
+            counter. I build resilient, real-time products that ship from start to finish.
           </p>
 
           <p className="font-mono text-[12px] text-[#6c7585] mb-8 flex flex-wrap items-center gap-x-4 gap-y-1">
