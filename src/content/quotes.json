@@ -1,0 +1,42 @@
+[
+  {
+    "classical": "The unexamined life is not worth living.",
+    "engineering": "Code without tests is technical debt waiting to compound. Reflection through review keeps systems honest.",
+    "note": "Socrates — on deliberate practice in engineering"
+  },
+  {
+    "classical": "We are what we repeatedly do. Excellence, then, is not an act, but a habit.",
+    "engineering": "Consistent coding standards, automated pipelines, and daily refactoring compound into reliable systems.",
+    "note": "Aristotle — on engineering discipline"
+  },
+  {
+    "classical": "The only true wisdom is in knowing you know nothing.",
+    "engineering": "The best engineers stay curious. Admitting gaps drives learning and prevents dangerous assumptions in architecture.",
+    "note": "Socrates — on continuous learning"
+  },
+  {
+    "classical": "No man ever steps in the same river twice.",
+    "engineering": "Requirements change, teams evolve, technology shifts. Build systems that embrace change rather than resist it.",
+    "note": "Heraclitus — on adaptable architecture"
+  },
+  {
+    "classical": "First, do no harm.",
+    "engineering": "Ship incrementally, test thoroughly, roll back quickly. Production stability is a responsibility, not a constraint.",
+    "note": "Hippocrates — on deployment safety"
+  },
+  {
+    "classical": "Give me a lever long enough and I shall move the world.",
+    "engineering": "The right abstraction at the right layer multiplies team velocity. Choose your levers wisely.",
+    "note": "Archimedes — on leverage through abstraction"
+  },
+  {
+    "classical": "Know thyself.",
+    "engineering": "Understand your system's boundaries, failure modes, and performance characteristics before they surprise you in production.",
+    "note": "Delphic maxim — on observability"
+  },
+  {
+    "classical": "The beginning of wisdom is the definition of terms.",
+    "engineering": "Clear type definitions, well-named interfaces, and shared domain language prevent entire categories of bugs.",
+    "note": "Socrates — on TypeScript and domain modeling"
+  }
+]
