@@ -46,10 +46,16 @@ function FeaturedCard({ project }: { project: Project }) {
 
       <div className="relative grid md:grid-cols-[1fr_auto] items-start gap-4 mb-5">
         <div>
-          <div className="flex items-center gap-2 mb-3">
-            <span className="status-pill">
-              <span className="pulse-dot" aria-hidden="true" /> Live
-            </span>
+          <div className="flex items-center gap-2 mb-3 flex-wrap">
+            {project.demoUrl ? (
+              <span className="status-pill">
+                <span className="pulse-dot" aria-hidden="true" /> Live
+              </span>
+            ) : (
+              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#8e97a8] px-2 py-1 rounded-md border border-[#283040] bg-white/[0.03]">
+                Open source
+              </span>
+            )}
             <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#6c7585]">
               Featured · Hero Project
             </span>
@@ -60,16 +66,19 @@ function FeaturedCard({ project }: { project: Project }) {
           <p className="text-[#aeb6c2] mt-2 max-w-[42rem]">{project.hook}</p>
         </div>
 
-        <dl className="font-mono text-[11px] text-[#6c7585] grid grid-cols-2 gap-x-6 gap-y-1 md:text-right md:block">
-          <div className="flex md:justify-end gap-2">
-            <dt>role:</dt>
-            <dd className="text-[#e6ebf2]">Frontend Lead · Scrum Master</dd>
-          </div>
-          <div className="flex md:justify-end gap-2 mt-1">
-            <dt>realtime:</dt>
-            <dd className="text-[#4ade80]">WebSockets</dd>
-          </div>
-        </dl>
+        {project.heroMetrics && project.heroMetrics.length > 0 ? (
+          <dl className="font-mono text-[11px] text-[#6c7585] grid grid-cols-2 gap-x-6 gap-y-1 md:text-right md:block">
+            {project.heroMetrics.map((row, i) => (
+              <div
+                key={row.label}
+                className={`flex md:justify-end gap-2 ${i > 0 ? "mt-1" : ""}`}
+              >
+                <dt>{row.label}:</dt>
+                <dd className="text-[#e6ebf2]">{row.value}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : null}
       </div>
 
       <div className="relative flex flex-wrap gap-1.5 mb-6">
@@ -156,13 +165,19 @@ function ProjectCard({ project }: { project: Project }) {
         <h4 className="text-[1.05rem] font-semibold text-[#e6ebf2] tracking-[-0.01em]">
           {project.title}
         </h4>
-        <span className="status-pill !text-[10px]">
-          <span
-            className="w-1.5 h-1.5 rounded-full bg-[#4ade80]"
-            aria-hidden="true"
-          />
-          Active
-        </span>
+        {project.demoUrl ? (
+          <span className="status-pill !text-[10px]">
+            <span
+              className="w-1.5 h-1.5 rounded-full bg-[#4ade80]"
+              aria-hidden="true"
+            />
+            Live
+          </span>
+        ) : (
+          <span className="font-mono text-[9px] uppercase tracking-[0.15em] text-[#8e97a8] px-2 py-1 rounded-md border border-[#283040] bg-white/[0.03]">
+            Repo
+          </span>
+        )}
       </div>
       <p className="text-[14px] text-[#aeb6c2] leading-relaxed">
         {project.hook}

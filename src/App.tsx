@@ -24,9 +24,9 @@ function App() {
         <Sep />
         <Skills />
         <Sep />
-        <Work />
-        <Sep />
         <Experience />
+        <Sep />
+        <Work />
         <Sep />
         <KnowledgeGraph />
         <Sep />

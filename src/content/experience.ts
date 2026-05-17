@@ -72,15 +72,34 @@ export const experience: Role[] = [
   },
 ];
 
-export const education = [
+export interface EducationEntry {
+  institution: string;
+  degree: string;
+  dates: string;
+  description: string;
+  /** Visual accent for hover glow / icon tint */
+  accent: "cyan" | "violet";
+  /** Inline SVG variant for the card */
+  icon: "cap" | "layers";
+}
+
+export const education: EducationEntry[] = [
   {
     institution: "Langara College",
     degree: "Diploma in Computer Studies (Computer Science)",
     dates: "Sept 2024 – Dec 2025",
+    description:
+      "Diploma in Computer Studies with a strong base in programming, databases, networking, and software architecture—from fundamentals through maintainable design. Coursework also covers systems analysis (requirements, process modeling), plus business context and professional communication so technical work stays aligned with stakeholders and team delivery.",
+    accent: "cyan",
+    icon: "cap",
   },
   {
     institution: "CESDE University",
     degree: "Software Development / Computer Software Engineering",
     dates: "Jan 2021 – Dec 2023",
+    description:
+      "Diploma centered on programming, structured databases, and software architecture, with repeated practice in agile ceremonies, backlog refinement, and iterative delivery. Leadership-focused modules rounded out the technical track—prioritization, collaboration, and guiding small teams through design and implementation decisions.",
+    accent: "violet",
+    icon: "layers",
   },
 ];

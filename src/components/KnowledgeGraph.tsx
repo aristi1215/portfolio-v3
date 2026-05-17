@@ -26,70 +26,64 @@ const GROUP_COLORS: Record<string, string> = {
 };
 
 const TYPE_RADIUS: Record<string, number> = {
-  project: 28,
-  skill: 22,
-  concept: 18,
+  project: 26,
+  skill: 20,
+  concept: 17,
 };
 
-/** Lower index = nearer to graph center (“inner” ring). Missing keys sink to outer fallback. */
-const GROUP_RING_LEVEL: Record<string, number> = {
-  frontend: 3,
-  backend: 3,
-  data: 4,
-  cloud: 5,
-  security: 5,
-  practices: 8,
-  projects: 9,
-};
+function sortNodesByLabel(nodes: Node[]): Node[] {
+  return [...nodes].sort((a, b) => a.label.localeCompare(b.label));
+}
+
+/** Even spacing on a circle; optional phase rotates the ring so rings don’t stack radially. */
+function placeRing(
+  items: Node[],
+  cx: number,
+  cy: number,
+  radius: number,
+  phase: number,
+  out: Record<string, { x: number; y: number }>
+): void {
+  const n = items.length;
+  if (n === 0) return;
+  const step = (Math.PI * 2) / n;
+  items.forEach((node, i) => {
+    const theta = phase + i * step - Math.PI / 2;
+    out[node.id] = {
+      x: cx + Math.cos(theta) * radius,
+      y: cy + Math.sin(theta) * radius,
+    };
+  });
+}
 
 export default function KnowledgeGraph() {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
 
   const { positions, width, height } = useMemo(() => {
     const nodes = graphData.nodes as Node[];
-    const w = 800;
-    const h = 540;
+    const w = 920;
+    const h = 580;
     const cx = w / 2;
-    const cy = h / 1.8;
+    const cy = h / 2 + 8;
 
-    const groups: Record<string, Node[]> = {};
-    nodes.forEach((n) => {
-      const g = n.group || "other";
-      if (!groups[g]) groups[g] = [];
-      groups[g].push(n);
-    });
-
-    const fallbackRingLevel =
-      Math.max(0, ...Object.values(GROUP_RING_LEVEL)) + 1;
-    const groupKeys = Object.keys(groups).sort((a, b) => {
-      const la = GROUP_RING_LEVEL[a] ?? fallbackRingLevel;
-      const lb = GROUP_RING_LEVEL[b] ?? fallbackRingLevel;
-      return la - lb || a.localeCompare(b);
-    });
+    const concepts = sortNodesByLabel(nodes.filter((n) => n.type === "concept"));
+    const skills = sortNodesByLabel(nodes.filter((n) => n.type === "skill"));
+    const projects = sortNodesByLabel(nodes.filter((n) => n.type === "project"));
 
     const pos: Record<string, { x: number; y: number }> = {};
-    const tierStart = 42;
-    const tierGap = 16;
-    const radialStep = 20;
 
-    groupKeys.forEach((g, gi) => {
-      const angle = (gi / groupKeys.length) * Math.PI * 2 - Math.PI / 2;
-      const groupNodes = groups[g];
-      const ring =
-        tierStart +
-        (GROUP_RING_LEVEL[g] ?? fallbackRingLevel) * tierGap;
+    const rConcept = 72;
+    const rSkill = 168;
+    const rProject = 248;
 
-      groupNodes.forEach((n, ni) => {
-        const spread = groupNodes.length > 1 ? 0.8 : 0;
-        const nodeAngle =
-          angle + (ni - (groupNodes.length - 1) / 2) * spread * 0.4;
-        const r = ring + ni * radialStep;
-        pos[n.id] = {
-          x: cx + Math.cos(nodeAngle) * r,
-          y: cy + Math.sin(nodeAngle) * r,
-        };
-      });
-    });
+    const skillPhase =
+      skills.length > 0 ? Math.PI / skills.length / 2.5 : 0;
+    const conceptPhase =
+      concepts.length > 0 ? Math.PI / Math.max(concepts.length, 1) : 0;
+
+    placeRing(concepts, cx, cy, rConcept, conceptPhase, pos);
+    placeRing(skills, cx, cy, rSkill, skillPhase, pos);
+    placeRing(projects, cx, cy, rProject, 0, pos);
 
     return { positions: pos, width: w, height: h };
   }, []);
@@ -127,7 +121,7 @@ export default function KnowledgeGraph() {
           <div className="grid-bg">
             <svg
               viewBox={`0 0 ${width} ${height}`}
-              className="w-full h-auto max-h-[520px]"
+              className="w-full h-auto max-h-[580px]"
               role="img"
               aria-label="Knowledge graph showing relationships between skills, projects, and concepts"
             >

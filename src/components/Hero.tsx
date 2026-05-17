@@ -68,6 +68,7 @@ export default function Hero() {
               href={profile.resumeUrl}
               className="btn-ghost"
               aria-label="Download résumé"
+              target="_blank"
             >
               <DownloadIcon />
               Download Résumé

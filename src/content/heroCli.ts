@@ -232,7 +232,8 @@ function formatExperienceSection(): string {
 
 function formatEducationSection(): string {
   const rows = education.map(
-    (e) => `${e.institution}\n  ${e.degree}\n  ${e.dates}`,
+    (e) =>
+      `${e.institution}\n  ${e.degree}\n  ${e.dates}\n  ${e.description}`,
   );
   return `● education\n\n${rows.join("\n\n")}`;
 }
