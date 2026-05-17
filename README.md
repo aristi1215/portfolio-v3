@@ -1,5 +1,11 @@
 # React + TypeScript + Vite
 
+## Portfolio build specification
+
+Product, UX, and implementation plans for this portfolio live in **[`plan/`](plan/)**. Start with [`plan/README.md`](plan/README.md) and [`plan/PORTFOLIO-PLAN.md`](plan/PORTFOLIO-PLAN.md) for cloud-agent or handoff builds.
+
+---
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
