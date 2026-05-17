@@ -1,76 +1,98 @@
 import { experience, education } from "../content/experience";
+import { SectionHeader } from "./SystemOverview";
 
 export default function Experience() {
   return (
-    <section id="experience" className="py-24 px-6 bg-charcoal/[0.02]">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-serif mb-12">Experience</h2>
+    <section id="runtime" className="px-6 py-20">
+      <div className="max-w-6xl mx-auto">
+        <SectionHeader
+          eyebrow="Runtime Log"
+          title="Where I've shipped."
+          sub="Roles, scope, and outcomes — chronological, redacted only where contracts demand it."
+        />
 
-        <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-[7px] top-2 bottom-2 w-px bg-border hidden md:block" />
-
-          <div className="space-y-8">
-            {experience.map((role) => (
-              <div key={role.id} className="relative md:pl-8">
-                {/* Timeline dot */}
-                <div className="absolute left-0 top-2 w-[15px] h-[15px] rounded-full border-2 border-accent bg-paper hidden md:block" />
-
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-1 mb-2">
-                  <div>
-                    <h3 className="font-medium text-charcoal">{role.title}</h3>
-                    <p className="text-sm text-muted">
-                      {role.company} · {role.location}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted whitespace-nowrap">
-                      {role.startDate} – {role.endDate}
-                    </span>
+        <div className="mt-10 space-y-3">
+          {experience.map((role, i) => (
+            <article key={role.id} className="panel p-5 md:p-6 group">
+              <div className="grid md:grid-cols-[1fr_auto] gap-3 md:items-start">
+                <div className="runtime-row">
+                  <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                    <h3 className="text-[16px] font-semibold text-[#e6ebf2]">
+                      {role.title}
+                    </h3>
                     {role.concurrent && (
-                      <span className="px-2 py-0.5 text-[10px] rounded-full bg-gold/10 text-gold border border-gold/20">
+                      <span className="status-pill !border-[#f59e0b]/30 !bg-[#f59e0b]/[0.06] !text-[#f59e0b]">
                         Concurrent
                       </span>
                     )}
                   </div>
+                  <p className="font-mono text-[12px] text-[#6c7585] mb-3">
+                    <span className="text-[#38bdf8]">{role.company}</span>
+                    <span className="mx-2 text-[#3a4151]">·</span>
+                    {role.location}
+                  </p>
+                  <p className="text-[14px] text-[#aeb6c2] leading-relaxed">
+                    {role.summary}
+                  </p>
+                  {role.highlights && (
+                    <ul className="mt-3 space-y-1.5">
+                      {role.highlights.map((h, j) => (
+                        <li
+                          key={j}
+                          className="flex gap-2 text-[13.5px] text-[#aeb6c2] leading-relaxed"
+                        >
+                          <span className="text-[#4ade80]/80 font-mono shrink-0">
+                            ›
+                          </span>
+                          <span>{h}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
 
-                <p className="text-sm text-stone mt-1">{role.summary}</p>
-
-                {role.highlights && (
-                  <ul className="mt-3 space-y-1">
-                    {role.highlights.map((h, i) => (
-                      <li key={i} className="text-sm text-stone flex gap-2">
-                        <span className="text-accent/60">·</span>
-                        {h}
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                <div className="font-mono text-[11.5px] text-[#6c7585] md:text-right md:min-w-[10rem]">
+                  <div className="text-[#aeb6c2] whitespace-nowrap">
+                    {role.startDate} – {role.endDate}
+                  </div>
+                  <div className="text-[#4a5263] mt-1">
+                    [{String(experience.length - i).padStart(2, "0")}/
+                    {String(experience.length).padStart(2, "0")}]
+                  </div>
+                </div>
               </div>
-            ))}
-          </div>
+            </article>
+          ))}
         </div>
 
-        {/* Overlap Note */}
-        <p className="text-xs text-muted mt-8 p-3 rounded bg-gold/5 border border-gold/10">
-          Note: May–Aug 2024 includes concurrent part-time/split-commitment
-          roles across multiple companies.
-        </p>
+        <div className="mt-6 panel p-4 font-mono text-[12px] text-[#aeb6c2] flex items-start gap-3">
+          <span className="text-[#f59e0b] shrink-0">⚠</span>
+          <span>
+            <span className="text-[#f59e0b]">overlap_note:</span> May–Aug 2024
+            includes concurrent split-commitment roles. All overlap was
+            disclosed; outcomes were tracked per engagement.
+          </span>
+        </div>
 
         {/* Education */}
         <div className="mt-16">
-          <h3 className="text-xl font-serif mb-6 text-muted">Education</h3>
-          <div className="space-y-4">
+          <span className="eyebrow">Education</span>
+          <h3 className="text-[1.4rem] font-semibold tracking-[-0.02em] mt-2 mb-6 title-grad">
+            Loaded modules.
+          </h3>
+
+          <div className="grid md:grid-cols-2 gap-4">
             {education.map((edu) => (
-              <div key={edu.institution} className="flex flex-col md:flex-row md:items-center md:justify-between gap-1">
-                <div>
-                  <p className="font-medium text-charcoal text-sm">
-                    {edu.institution}
-                  </p>
-                  <p className="text-sm text-muted">{edu.degree}</p>
-                </div>
-                <span className="text-sm text-muted">{edu.dates}</span>
+              <div key={edu.institution} className="panel p-5">
+                <p className="text-[15px] font-semibold text-[#e6ebf2]">
+                  {edu.institution}
+                </p>
+                <p className="text-[13.5px] text-[#aeb6c2] mt-1">
+                  {edu.degree}
+                </p>
+                <p className="font-mono text-[11.5px] text-[#6c7585] mt-3">
+                  {edu.dates}
+                </p>
               </div>
             ))}
           </div>
