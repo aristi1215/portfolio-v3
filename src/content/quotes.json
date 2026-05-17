@@ -20,16 +20,6 @@
     "note": "Heraclitus — on adaptable architecture"
   },
   {
-    "classical": "First, do no harm.",
-    "engineering": "Ship incrementally, test thoroughly, roll back quickly. Production stability is a responsibility, not a constraint.",
-    "note": "Hippocrates — on deployment safety"
-  },
-  {
-    "classical": "Give me a lever long enough and I shall move the world.",
-    "engineering": "The right abstraction at the right layer multiplies team velocity. Choose your levers wisely.",
-    "note": "Archimedes — on leverage through abstraction"
-  },
-  {
     "classical": "Know thyself.",
     "engineering": "Understand your system's boundaries, failure modes, and performance characteristics before they surprise you in production.",
     "note": "Delphic maxim — on observability"

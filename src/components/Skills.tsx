@@ -5,9 +5,13 @@ const COMMANDS: Record<string, string> = {
   Frontend: "$ cat ~/.frontend",
   Backend: "$ cat ~/.backend",
   Data: "$ psql --list",
-  "Cloud & Platform": "$ aws configure list",
+  "Cloud & Platform": "$ aws ecs list-clusters",
+  Mobile: "$ npx react-native run-ios",
+  Security: "$ openssl version -a",
   "Quality & Testing": "$ npm test --watch",
   Practices: "$ git log --oneline",
+  Communication: "$ say -- venue=auditorium",
+  "Human languages": "$ locale -a",
 };
 
 export default function Skills() {
@@ -16,7 +20,7 @@ export default function Skills() {
       <div className="max-w-6xl mx-auto">
         <SectionHeader
           eyebrow="Tech Stack"
-          title="Languages, frameworks, and the muscle memory."
+          title="Languages, frameworks, and skills"
           sub="What I reach for first — grouped by where it lives in the system."
         />
 
@@ -31,15 +35,22 @@ export default function Skills() {
                   {group.group}
                 </h3>
                 <span className="font-mono text-[10px] text-[#4a5263]">
-                  0{i + 1}
+                  {String(i + 1).padStart(2, "0")}
                 </span>
               </div>
 
               <div className="font-mono text-[11.5px] text-[#6c7585] mb-3 flex items-center gap-2">
                 <span className="text-[#4ade80]">▸</span>
-                {COMMANDS[group.group] || `$ list --${group.group.toLowerCase()}`}
+                {COMMANDS[group.group] ||
+                  `$ list --${group.group.toLowerCase().replace(/\s+/g, "-")}`}
                 <span className="caret !w-[0.45em]" />
               </div>
+
+              {group.description ? (
+                <p className="text-[12px] leading-relaxed text-[#8e97a8] mb-3">
+                  {group.description}
+                </p>
+              ) : null}
 
               <div className="flex flex-wrap gap-1.5 pt-3 border-t border-[#1d2330]">
                 {group.items.map((item) => (

@@ -6,18 +6,23 @@ export interface Metric {
 
 export const profile = {
   name: "Juan Aristizabal",
-  tagline: "Full-stack engineer — React/TypeScript + Python (FastAPI) APIs + SQL",
+  tagline: "Full-stack engineer — React/TypeScript + Node.js (Express) APIs + SQL",
   location: "Vancouver, BC",
   relocation: "Open to relocation",
-  email: "juanaristizabal1215@gmail.com",
+  email: "juanarieda@gmail.com",
   github: "https://github.com/aristi1215",
-  linkedin: "https://linkedin.com/in/juan-aristizabal-fullstack",
+  linkedin: "https://www.linkedin.com/in/juan-pablo-aristizabal-pineda/",
   resumeUrl: "/resume.pdf",
   metrics: [
     { label: "Years Experience", value: "2.5" },
     { label: "Shipped Items", value: "100+", sublabel: "Cumulative across roles" },
+    { label: "Bugs Resolved", value: "50+", sublabel: "Production fixes, end-to-end" },
+    {
+      label: "Response Time",
+      value: "200% faster",
+      sublabel: "Rearch: cut dead reqs, leaner fetches",
+    },
     { label: "AWS CCP", value: "Certified", sublabel: "Dec 2025" },
-    { label: "DELF B2", value: "French", sublabel: "Certified" },
   ] as Metric[],
-  chips: ["React/TypeScript", "FastAPI/Python", "SQL", "React Native", "AWS"],
+  chips: ["React/TypeScript", "Node.js/Express", "SQL", "React Native", "AWS"],
 };

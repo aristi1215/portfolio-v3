@@ -1,6 +1,12 @@
+import { useState, type ReactNode } from "react";
+
 import { profile } from "../content/profile";
 
+import HeroInteractiveCli from "./HeroInteractiveCli";
+
 export default function Hero() {
+  const [heroCodePane, setHeroCodePane] = useState<0 | 1>(0);
+
   return (
     <section
       id="system"
@@ -20,19 +26,9 @@ export default function Hero() {
         aria-hidden="true"
       />
 
-      <div className="relative max-w-6xl mx-auto grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-14 items-center">
+      <div className="relative max-w-6xl mx-auto grid min-w-0 lg:grid-cols-[.7fr_0.66fr] gap-10 lg:gap-12 items-center">
         {/* ── Left column ─────────────────────────────── */}
-        <div className="fade-up">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="status-pill">
-              <span className="pulse-dot" aria-hidden="true" />
-              Online · Available
-            </span>
-            <span className="font-mono text-[11px] text-[#6c7585]">
-              uptime: 100%
-            </span>
-          </div>
-
+        <div className="fade-up min-w-0">
           <h1 className="text-[clamp(2.5rem,6vw,4.6rem)] font-semibold leading-[1.02] tracking-[-0.03em] mb-5">
             <span className="title-grad">{profile.name}</span>
           </h1>
@@ -44,8 +40,7 @@ export default function Hero() {
             <span className="text-[#4ade80]">"Full-Stack Engineer"</span>
             <span className="text-[#6c7585]">;</span>
           </p>
-
-          <p className="text-[17px] md:text-[18px] text-[#aeb6c2] max-w-[34rem] leading-relaxed mb-6">
+          <p className="text-[17px] md:text-[18px] text-[#aeb6c2] max-w-[38rem] lg:max-w-none leading-relaxed mb-6">
             React/TypeScript front-of-house. FastAPI &amp; SQL behind the
             counter. I build resilient, real-time products that ship — from
             JWT-secured medical platforms to WebSocket reservation systems.
@@ -110,7 +105,7 @@ export default function Hero() {
         </div>
 
         {/* ── Right column: code + profile.json cards ──── */}
-        <div className="fade-up" style={{ animationDelay: "120ms" }}>
+        <div className="fade-up min-w-0" style={{ animationDelay: "120ms" }}>
           <div className="relative">
             <div
               className="pointer-events-none absolute -inset-6 rounded-[24px] blur-2xl"
@@ -121,111 +116,182 @@ export default function Hero() {
               aria-hidden="true"
             />
 
-            {/* Code window */}
-            <div className="relative codepad scanlines shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
-              <div className="window-chrome">
-                <span className="dot" style={{ background: "#fb7185" }} />
-                <span className="dot" style={{ background: "#f59e0b" }} />
-                <span className="dot" style={{ background: "#4ade80" }} />
-                <span className="ml-2 text-[#6c7585]">
-                  ~/portfolio/src/Engineer.ts
-                </span>
-                <span className="ml-auto text-[#4a5263] text-[10px]">
-                  TS · 23 lines
-                </span>
+            <div
+              className="flex justify-start gap-2 mb-3 font-mono text-[11px] text-[#8e97a8] items-center rounded-lg px-2 py-1.5 shadow-[0_8px_24px_-16px_rgba(0,0,0,0.75)] backdrop-blur-sm"
+              role="tablist"
+              aria-label="Switch between overview and quick info CLI"
+              onKeyDown={(e) => {
+                if (e.key === "ArrowLeft") {
+                  e.preventDefault();
+                  setHeroCodePane(0);
+                } else if (e.key === "ArrowRight") {
+                  e.preventDefault();
+                  setHeroCodePane(1);
+                }
+              }}
+            >
+              <button
+                type="button"
+                role="tab"
+                id="hero-tab-snippet"
+                aria-selected={heroCodePane === 0}
+                aria-controls="hero-pane-snippet"
+                tabIndex={heroCodePane === 0 ? 0 : -1}
+                className={`cursor-pointer rounded-md px-3 py-1.5 font-semibold border transition-colors tracking-wide ${
+                  heroCodePane === 0
+                    ? "border-[#4ade80]/55 text-[#e6ebf2] bg-[#4ade80]/12 shadow-[inset_0_0_0_1px_rgba(74,222,128,0.12)]"
+                    : "border-[#283040] text-[#aeb6c2] bg-white/[0.03] hover:border-[#4ade80]/30 hover:bg-white/[0.06] hover:text-[#e6ebf2]"
+                }`}
+                onClick={() => setHeroCodePane(0)}
+              >
+                overview
+              </button>
+              <button
+                type="button"
+                role="tab"
+                id="hero-tab-cli"
+                aria-selected={heroCodePane === 1}
+                aria-controls="hero-pane-cli"
+                tabIndex={heroCodePane === 1 ? 0 : -1}
+                className={`cursor-pointer rounded-md px-3 py-1.5 font-semibold border transition-colors tracking-wide whitespace-nowrap leading-tight ${
+                  heroCodePane === 1
+                    ? "border-[#4ade80]/55 text-[#e6ebf2] bg-[#4ade80]/12 shadow-[inset_0_0_0_1px_rgba(74,222,128,0.12)]"
+                    : "hero-cli-tab-pulse border-[#283040] text-[#aeb6c2] bg-white/[0.03] hover:border-[#4ade80]/30 hover:bg-white/[0.06] hover:text-[#e6ebf2]"
+                }`}
+                onClick={() => setHeroCodePane(1)}
+              >
+                quick info CLI
+              </button>
+            </div>
+
+            <div className="overflow-x-hidden rounded-[14px]">
+              <div
+                className="flex transition-transform duration-300 ease-out will-change-transform motion-reduce:transition-none"
+                style={{
+                  transform: `translateX(-${heroCodePane * 50}%)`,
+                  width: "200%",
+                }}
+              >
+                <div
+                  id="hero-pane-snippet"
+                  role="tabpanel"
+                  aria-labelledby="hero-tab-snippet"
+                  {...(heroCodePane !== 0 && { "aria-hidden": true })}
+                  className="w-1/2 shrink-0 min-w-[50%] max-w-[50%]"
+                >
+                  {/* Code window — untouched visual */}
+                  <div className="relative codepad scanlines shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
+                    <div className="window-chrome">
+                      <span className="dot" style={{ background: "#fb7185" }} />
+                      <span className="dot" style={{ background: "#f59e0b" }} />
+                      <span className="dot" style={{ background: "#4ade80" }} />
+                      <span className="ml-2 text-[#6c7585]">
+                        ~/portfolio/src/Engineer.ts
+                      </span>
+                      <span className="ml-auto text-[#4a5263] text-[10px]">
+                        TS · 23 lines
+                      </span>
+                    </div>
+                    <pre className="overflow-x-auto no-scrollbar p-5 text-[12.5px] leading-[1.7]">
+                      <code>
+                        <Line n={1}>
+                          <span className="tok-com">// Resilient by design</span>
+                        </Line>
+                        <Line n={2}>
+                          <span className="tok-key">export class</span>{" "}
+                          <span className="tok-typ">Engineer</span>
+                          <span className="tok-pun"> {"{"}</span>
+                        </Line>
+                        <Line n={3} indent={1}>
+                          <span className="tok-key">private readonly</span>{" "}
+                          <span className="tok-var">_stack</span>
+                          <span className="tok-pun">:</span>{" "}
+                          <span className="tok-typ">Stack</span>
+                          <span className="tok-pun">;</span>
+                        </Line>
+                        <Line n={4} indent={1}>
+                          <span className="tok-key">private readonly</span>{" "}
+                          <span className="tok-var">_principles</span>
+                          <span className="tok-pun">:</span>{" "}
+                          <span className="tok-typ">string</span>
+                          <span className="tok-pun">[];</span>
+                        </Line>
+                        <Line n={5}> </Line>
+                        <Line n={6} indent={1}>
+                          <span className="tok-key">async</span>{" "}
+                          <span className="tok-fn">ship</span>
+                          <span className="tok-pun">(</span>
+                          <span className="tok-var">scope</span>
+                          <span className="tok-pun">:</span>{" "}
+                          <span className="tok-typ">Scope</span>
+                          <span className="tok-pun">):</span>{" "}
+                          <span className="tok-typ">Promise</span>
+                          <span className="tok-pun">{"<"}</span>
+                          <span className="tok-typ">Outcome</span>
+                          <span className="tok-pun">{"> {"}</span>
+                        </Line>
+                        <Line n={7} indent={2}>
+                          <span className="tok-key">const</span>{" "}
+                          <span className="tok-var">plan</span>{" "}
+                          <span className="tok-pun">=</span>{" "}
+                          <span className="tok-key">await</span>{" "}
+                          <span className="tok-fn">decompose</span>
+                          <span className="tok-pun">(</span>
+                          <span className="tok-var">scope</span>
+                          <span className="tok-pun">);</span>
+                        </Line>
+                        <Line n={8} indent={2}>
+                          <span className="tok-key">await</span>{" "}
+                          <span className="tok-fn">test</span>
+                          <span className="tok-pun">(</span>
+                          <span className="tok-var">plan</span>
+                          <span className="tok-pun">.</span>
+                          <span className="tok-var">slices</span>
+                          <span className="tok-pun">);</span>
+                        </Line>
+                        <Line n={9} indent={2}>
+                          <span className="tok-key">return</span>{" "}
+                          <span className="tok-key">this</span>
+                          <span className="tok-pun">.</span>
+                          <span className="tok-fn">deploy</span>
+                          <span className="tok-pun">(</span>
+                          <span className="tok-var">plan</span>
+                          <span className="tok-pun">);</span>
+                        </Line>
+                        <Line n={10} indent={1}>
+                          <span className="tok-pun">{"}"}</span>
+                        </Line>
+                        <Line n={11}>
+                          <span className="tok-pun">{"}"}</span>
+                        </Line>
+                        <Line n={12}> </Line>
+                        <Line n={13}>
+                          <span className="tok-com">
+                            // Currently shipping…
+                          </span>
+                        </Line>
+                        <Line n={14}>
+                          <span className="tok-pun">▸ </span>
+                          <span className="tok-fn">deploy</span>
+                          <span className="tok-pun">(</span>
+                          <span className="tok-str">"Open to oportunities"</span>
+                          <span className="tok-pun">)</span>
+                          <span className="caret" />
+                        </Line>
+                      </code>
+                    </pre>
+                  </div>
+                </div>
+                <div
+                  id="hero-pane-cli"
+                  role="tabpanel"
+                  aria-labelledby="hero-tab-cli"
+                  {...(heroCodePane !== 1 && { "aria-hidden": true })}
+                  className="w-1/2 shrink-0 min-w-[50%] max-w-[50%] pl-[10px]"
+                >
+                  <HeroInteractiveCli inactive={heroCodePane !== 1} />
+                </div>
               </div>
-              <pre className="overflow-x-auto no-scrollbar p-5 text-[12.5px] leading-[1.7]">
-                <code>
-                  <Line n={1}>
-                    <span className="tok-com">// Resilient by design</span>
-                  </Line>
-                  <Line n={2}>
-                    <span className="tok-key">export class</span>{" "}
-                    <span className="tok-typ">Engineer</span>
-                    <span className="tok-pun"> {"{"}</span>
-                  </Line>
-                  <Line n={3} indent={1}>
-                    <span className="tok-key">private readonly</span>{" "}
-                    <span className="tok-var">_stack</span>
-                    <span className="tok-pun">:</span>{" "}
-                    <span className="tok-typ">Stack</span>
-                    <span className="tok-pun">;</span>
-                  </Line>
-                  <Line n={4} indent={1}>
-                    <span className="tok-key">private readonly</span>{" "}
-                    <span className="tok-var">_principles</span>
-                    <span className="tok-pun">:</span>{" "}
-                    <span className="tok-typ">string</span>
-                    <span className="tok-pun">[];</span>
-                  </Line>
-                  <Line n={5}> </Line>
-                  <Line n={6} indent={1}>
-                    <span className="tok-key">async</span>{" "}
-                    <span className="tok-fn">ship</span>
-                    <span className="tok-pun">(</span>
-                    <span className="tok-var">scope</span>
-                    <span className="tok-pun">:</span>{" "}
-                    <span className="tok-typ">Scope</span>
-                    <span className="tok-pun">):</span>{" "}
-                    <span className="tok-typ">Promise</span>
-                    <span className="tok-pun">{"<"}</span>
-                    <span className="tok-typ">Outcome</span>
-                    <span className="tok-pun">{"> {"}</span>
-                  </Line>
-                  <Line n={7} indent={2}>
-                    <span className="tok-key">const</span>{" "}
-                    <span className="tok-var">plan</span>{" "}
-                    <span className="tok-pun">=</span>{" "}
-                    <span className="tok-key">await</span>{" "}
-                    <span className="tok-fn">decompose</span>
-                    <span className="tok-pun">(</span>
-                    <span className="tok-var">scope</span>
-                    <span className="tok-pun">);</span>
-                  </Line>
-                  <Line n={8} indent={2}>
-                    <span className="tok-key">await</span>{" "}
-                    <span className="tok-fn">test</span>
-                    <span className="tok-pun">(</span>
-                    <span className="tok-var">plan</span>
-                    <span className="tok-pun">.</span>
-                    <span className="tok-var">slices</span>
-                    <span className="tok-pun">);</span>
-                  </Line>
-                  <Line n={9} indent={2}>
-                    <span className="tok-key">return</span>{" "}
-                    <span className="tok-key">this</span>
-                    <span className="tok-pun">.</span>
-                    <span className="tok-fn">deploy</span>
-                    <span className="tok-pun">(</span>
-                    <span className="tok-var">plan</span>
-                    <span className="tok-pun">,</span>{" "}
-                    <span className="tok-pun">{"{"}</span>{" "}
-                    <span className="tok-var">rollback</span>
-                    <span className="tok-pun">:</span>{" "}
-                    <span className="tok-key">true</span>{" "}
-                    <span className="tok-pun">{"}"}</span>
-                    <span className="tok-pun">);</span>
-                  </Line>
-                  <Line n={10} indent={1}>
-                    <span className="tok-pun">{"}"}</span>
-                  </Line>
-                  <Line n={11}>
-                    <span className="tok-pun">{"}"}</span>
-                  </Line>
-                  <Line n={12}> </Line>
-                  <Line n={13}>
-                    <span className="tok-com">// Currently shipping…</span>
-                  </Line>
-                  <Line n={14}>
-                    <span className="tok-pun">▸ </span>
-                    <span className="tok-fn">deploy</span>
-                    <span className="tok-pun">(</span>
-                    <span className="tok-str">"beach-point"</span>
-                    <span className="tok-pun">)</span>
-                    <span className="caret" />
-                  </Line>
-                </code>
-              </pre>
             </div>
 
             {/* profile.json card */}
@@ -240,7 +306,7 @@ export default function Hero() {
                 {`{
   "name": "${profile.name}",
   "role": "Full-Stack Engineer",
-  "stack": ["React", "TypeScript", "FastAPI", "SQL"],
+  "stack": ["React", "TypeScript", "Express", "Node.js", "MongoDB"],
   "location": "${profile.location}",
   "status": "Open to startup roles"
 }`}
@@ -262,7 +328,7 @@ function Line({
 }: {
   n: number;
   indent?: number;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <div className="flex">

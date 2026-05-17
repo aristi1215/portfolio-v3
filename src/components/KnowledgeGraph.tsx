@@ -31,6 +31,17 @@ const TYPE_RADIUS: Record<string, number> = {
   concept: 18,
 };
 
+/** Lower index = nearer to graph center (“inner” ring). Missing keys sink to outer fallback. */
+const GROUP_RING_LEVEL: Record<string, number> = {
+  frontend: 3,
+  backend: 3,
+  data: 4,
+  cloud: 5,
+  security: 5,
+  practices: 8,
+  projects: 9,
+};
+
 export default function KnowledgeGraph() {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
 
@@ -39,7 +50,7 @@ export default function KnowledgeGraph() {
     const w = 800;
     const h = 540;
     const cx = w / 2;
-    const cy = h / 2;
+    const cy = h / 1.8;
 
     const groups: Record<string, Node[]> = {};
     nodes.forEach((n) => {
@@ -48,19 +59,31 @@ export default function KnowledgeGraph() {
       groups[g].push(n);
     });
 
-    const groupKeys = Object.keys(groups);
+    const fallbackRingLevel =
+      Math.max(0, ...Object.values(GROUP_RING_LEVEL)) + 1;
+    const groupKeys = Object.keys(groups).sort((a, b) => {
+      const la = GROUP_RING_LEVEL[a] ?? fallbackRingLevel;
+      const lb = GROUP_RING_LEVEL[b] ?? fallbackRingLevel;
+      return la - lb || a.localeCompare(b);
+    });
+
     const pos: Record<string, { x: number; y: number }> = {};
+    const tierStart = 42;
+    const tierGap = 16;
+    const radialStep = 20;
 
     groupKeys.forEach((g, gi) => {
       const angle = (gi / groupKeys.length) * Math.PI * 2 - Math.PI / 2;
       const groupNodes = groups[g];
-      const baseR = 170;
+      const ring =
+        tierStart +
+        (GROUP_RING_LEVEL[g] ?? fallbackRingLevel) * tierGap;
 
       groupNodes.forEach((n, ni) => {
-        const spread = groupNodes.length > 1 ? 0.4 : 0;
+        const spread = groupNodes.length > 1 ? 0.8 : 0;
         const nodeAngle =
-          angle + (ni - (groupNodes.length - 1) / 2) * spread * 0.3;
-        const r = baseR + ni * 28;
+          angle + (ni - (groupNodes.length - 1) / 2) * spread * 0.4;
+        const r = ring + ni * radialStep;
         pos[n.id] = {
           x: cx + Math.cos(nodeAngle) * r,
           y: cy + Math.sin(nodeAngle) * r,
