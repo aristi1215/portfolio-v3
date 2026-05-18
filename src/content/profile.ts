@@ -5,7 +5,7 @@ export interface Metric {
 }
 
 export const profile = {
-  name: "Juan Aristizabal",
+  name: "Juan Pineda",
   tagline: "Full-stack engineer — React/TypeScript + Node.js (Express) APIs + SQL",
   location: "Vancouver, BC",
   relocation: "Open to relocation",
